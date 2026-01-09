@@ -97,6 +97,19 @@ body {
     line-height: 1.6;
     text-align: center;
 }
+#particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.scene > *:not(canvas) {
+    position: relative;
+    z-index: 2;
+}
 </style>
 </head>
 
@@ -106,6 +119,7 @@ body {
     <div class="neon">17 JAN 2026</div>
     <div class="cat">🐈‍⬛</div>
     <div class="book" onclick="openBook()"></div>
+    <canvas id="particles"></canvas>
 
     <div class="message" id="messageBox">
         <h1>Happy Birthday, Adiba</h1>
@@ -120,6 +134,47 @@ body {
 function openBook(){
     document.getElementById("messageBox").style.display = "block";
 }
+
+// particles
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+let particles = [];
+
+for(let i=0;i<80;i++){
+    particles.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*2+1,
+        v: Math.random()*0.5+0.2
+    });
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "rgba(255,120,170,0.6)";
+
+    particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+        p.y += p.v;
+        if(p.y > canvas.height){
+            p.y = 0;
+            p.x = Math.random()*canvas.width;
+        }
+    });
+
+    requestAnimationFrame(draw);
+}
+draw();
 </script>
 
 </body>
