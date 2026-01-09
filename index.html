@@ -17,7 +17,18 @@ body {
     position: relative;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
+
+.scene {
+    animation: fadeIn 3s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 
 .alley {
     position: absolute;
@@ -44,6 +55,25 @@ body {
     font-size: 120px;
     filter: drop-shadow(0 0 15px rgba(255,100,150,0.3));
 }
+
+.eyes {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff77aa;
+    border-radius: 50%;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: -20px 0 #ff77aa, 20px 0 #ff77aa;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
 
 .book {
     position: absolute;
@@ -106,8 +136,8 @@ body {
     z-index: 0;
 }
 
-.scene > *:not(canvas) {
-    position: relative;
+.alley, .neon, .cat, .book, .message {
+    position: absolute;
     z-index: 2;
 }
 </style>
@@ -116,10 +146,13 @@ body {
 <body>
 <div class="scene">
     <div class="alley"></div>
-    <div class="neon">17 JAN 2026</div>
-    <div class="cat">🐈‍⬛</div>
-    <div class="book" onclick="openBook()"></div>
     <canvas id="particles"></canvas>
+    <div class="neon">17 JAN 2026</div>
+    <div class="cat">
+        🐈‍⬛
+    <div class="eyes"></div>
+    <div class="book" onclick="openBook()"></div>
+    
 
     <div class="message" id="messageBox">
         <h1>Happy Birthday, Adiba</h1>
