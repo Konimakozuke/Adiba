@@ -210,6 +210,33 @@ body {
     height: 100%;
     z-index: 0;
 }
+
+/* WARMTH STATE — almost imperceptible */
+body.warm {
+    background: linear-gradient(to bottom, #0d0b12, #1a1626);
+}
+
+body.warm .alley {
+    background: radial-gradient(circle at center, rgba(80,70,110,0.25), rgba(0,0,0,0.92));
+}
+
+body.warm .panel {
+    box-shadow: 0 0 46px rgba(255,120,170,0.52);
+}
+
+body.warm .panel p {
+    line-height: 1.82;
+    letter-spacing: 0.15px;
+}
+
+body.warm .neon {
+    opacity: 0.78;
+}
+
+body.warm .cat {
+    filter: drop-shadow(0 0 18px rgba(255,120,170,0.38));
+}
+
 </style>
 </head>
 
@@ -292,6 +319,15 @@ function fadeInMusic(targetVolume = 0.6, duration = 3000) {
     }, 100);
 }
 
+let warmthActivated = false;
+
+function activateWarmth() {
+    if (warmthActivated) return;
+    warmthActivated = true;
+    document.body.classList.add("warm");
+}
+
+
 function openBook() {
     document.getElementById("messageBox").classList.add("show");
 
@@ -304,8 +340,10 @@ function openBook() {
 
     setTimeout(() => {
         document.getElementById("icon1").classList.add("show");
+        activateWarmth(); // warmth acknowledges her choice
     }, 2000);
 }
+
 
 
 function openPoem(n) {
@@ -319,6 +357,12 @@ function openPoem(n) {
         document.getElementById("icon3").classList.add("show");
     }
 }
+
+// Presence-based warmth (quiet)
+setTimeout(() => {
+    activateWarmth();
+}, 12000); // 12 seconds of staying
+
 
 /* PARTICLES */
 const canvas = document.getElementById("particles");
