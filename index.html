@@ -1,137 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Happy Birthday, Adiba</title>
+<meta charset="UTF-8">
+<title>For Adiba</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: radial-gradient(circle at center, #1a1a1a, #000);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: "Georgia", serif;
-      color: #eee;
-      overflow: hidden;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Inter&display=swap" rel="stylesheet">
 
-    .container {
-      text-align: center;
-      max-width: 600px;
-      padding: 40px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      box-shadow: 0 0 40px rgba(255, 100, 120, 0.15);
-      animation: heartbeat 6s infinite;
-    }
+<style>
+body {
+    margin: 0;
+    background: linear-gradient(to bottom, #0b0b0f, #141421);
+    color: #eee;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
 
-    @keyframes heartbeat {
-      0% { box-shadow: 0 0 30px rgba(255,100,120,0.15); }
-      50% { box-shadow: 0 0 50px rgba(255,100,120,0.35); }
-      100% { box-shadow: 0 0 30px rgba(255,100,120,0.15); }
-    }
+.scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
 
-    h1 {
-      font-weight: normal;
-      margin-bottom: 30px;
-    }
+/* BACKGROUND */
+.alley {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(60,60,90,0.2), rgba(0,0,0,0.9));
+    z-index: 1;
+}
 
-    .icon {
-      font-size: 42px;
-      cursor: pointer;
-      margin: 20px;
-      display: inline-block;
-      transition: transform 0.3s, opacity 0.5s;
-      opacity: 0.7;
-    }
+/* DATE */
+.neon {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    color: #ff77aa;
+    font-size: 28px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    z-index: 2;
+}
 
-    .icon:hover {
-      transform: scale(1.2);
-      opacity: 1;
-    }
+/* CAT */
+.cat {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 120px;
+    filter: drop-shadow(0 0 15px rgba(255,100,150,0.3));
+    z-index: 2;
+}
 
-    .hidden {
-      display: none;
-    }
+.eyes {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff77aa;
+    border-radius: 50%;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: -20px 0 #ff77aa, 20px 0 #ff77aa;
+    animation: glow 2s infinite alternate;
+}
 
-    .text {
-      margin-top: 30px;
-      font-size: 16px;
-      line-height: 1.8;
-      opacity: 0;
-      transition: opacity 1.5s;
-    }
+@keyframes glow {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
 
-    .text.show {
-      opacity: 1;
+/* BOOK */
+.book {
+    position: absolute;
+    bottom: 80px;
+    right: 18%;
+    width: 190px;
+    height: 120px;
+    background: #222;
+    border: 2px solid #ff77aa;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(255,120,170,0.5);
+    cursor: pointer;
+    transition: transform 0.3s;
+    z-index: 2;
+}
+.book:hover { transform: scale(1.08); }
+.book::after {
+    content: "📖";
+    position: absolute;
+    font-size: 58px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* POEM ICONS */
+.poem-icon {
+    position: absolute;
+    bottom: 80px;
+    left: 18%;
+    font-size: 48px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+    z-index: 2;
+}
+.poem-icon.show {
+    opacity: 0.7;
+    pointer-events: auto;
+}
+.poem-icon:hover { opacity: 1; }
+
+#poemIcon2 { bottom: 140px; }
+#poemIcon3 { bottom: 200px; }
+
+/* PANELS */
+.panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    max-width: 640px;
+    background: rgba(15,15,25,0.96);
+    border: 1px solid #ff77aa;
+    padding: 32px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -45%);
+    box-shadow: 0 0 40px rgba(255,120,170,0.45);
+    z-index: 4;
+}
+
+.panel.show {
+    opacity: 1;
+    pointer-events: auto;
+    animation: panelIn 3s ease forwards, heartbeat 4s ease-in-out infinite;
+}
+
+@keyframes panelIn {
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
     }
-  </style>
+}
+
+@keyframes heartbeat {
+    0% { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
+    50% { box-shadow: 0 0 55px rgba(255,120,170,0.45); }
+    100% { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
+}
+
+.panel h1 {
+    font-family: 'Playfair Display', serif;
+    color: #ff77aa;
+    text-align: center;
+}
+
+.panel p {
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* PARTICLES */
+#particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+</style>
 </head>
 
 <body>
-  <audio id="music" loop>
-    <source src="assets/music.mp3" type="audio/mpeg">
-  </audio>
 
-  <div class="container">
-    <h1>Happy Birthday, Adiba</h1>
+<audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_2e3e7a0c4e.mp3" type="audio/mpeg">
+</audio>
 
-    <div id="book" class="icon">📖</div>
-    <div id="flower" class="icon hidden">🌸</div>
-    <div id="star" class="icon hidden">⭐</div>
+<div class="scene">
+    <div class="alley"></div>
+    <canvas id="particles"></canvas>
 
-    <div id="text1" class="text">
-      “I love you without knowing how, or when, or from where.
-      I love you simply, without problems or pride:
-      I love you in this way because I do not know any other way of loving but this...”
+    <div class="neon">17 JAN 2026</div>
+
+    <div class="cat">
+        🐈‍⬛
+        <div class="eyes"></div>
     </div>
 
-    <div id="text2" class="text">
-      “I love you. I’m glad you exist.
-      The rest of the day was quite easy.
-      I did all the jobs on my list and enjoyed them,
-      and had some time over.
-      I love you. I’m glad you exist.”
+    <div class="book" onclick="openBook()"></div>
+
+    <div class="poem-icon" id="poemIcon1" onclick="openPoem1()">✉️</div>
+    <div class="poem-icon" id="poemIcon2" onclick="openPoem2()">✉️</div>
+    <div class="poem-icon" id="poemIcon3" onclick="openPoem3()">✉️</div>
+
+    <div class="panel" id="messageBox">
+        <h1>Happy Birthday, Adiba</h1>
+        <p>
+            I’m really glad you exist.<br><br>
+            Even from far away, I hope today reminds you that you matter more than you probably realize, and that wherever this year takes you, it brings you things that feel kind, meaningful, and true to who you are.
+        </p>
     </div>
 
-    <div id="text3" class="text">
-      “Give me a daughter with your stubborn heart, or your even temper.
-      Give our children your dark-bright eyes, or your enchanted smile.
-      So that even when we are gone,
-      the world will find within them all of the reasons why I loved you.”
+    <div class="panel" id="poemBox1">
+        <p>
+            I love you without knowing how, or when, or from where.<br>
+            I love you simply, without problems or pride:<br>
+            I love you in this way because I do not know any other way of loving but this...
+        </p>
     </div>
-  </div>
 
-  <script>
-    const music = document.getElementById("music");
+    <div class="panel" id="poemBox2">
+        <p>
+            I love you. I’m glad you exist.<br><br>
+            The rest of the day was quite easy.<br>
+            I did all the jobs on my list<br>
+            And enjoyed them and had some time over.<br><br>
+            I love you. I’m glad you exist.
+        </p>
+    </div>
 
-    const book = document.getElementById("book");
-    const flower = document.getElementById("flower");
-    const star = document.getElementById("star");
+    <div class="panel" id="poemBox3">
+        <p>
+            Give me a daughter with your stubborn heart, or your even temper.<br>
+            Give our children your dark-bright eyes, or your enchanted smile.<br><br>
+            So that even when we are gone,<br>
+            the world will find within them all of the reasons why I loved you.
+        </p>
+    </div>
+</div>
 
-    const text1 = document.getElementById("text1");
-    const text2 = document.getElementById("text2");
-    const text3 = document.getElementById("text3");
+<script>
+const music = document.getElementById("bgMusic");
 
-    book.addEventListener("click", () => {
-      music.play();
-      text1.classList.add("show");
-      flower.classList.remove("hidden");
-      book.style.opacity = "0.3";
+function openBook() {
+    music.play().catch(()=>{});
+    document.getElementById("messageBox").classList.add("show");
+    document.getElementById("poemIcon1").classList.add("show");
+}
+
+function openPoem1() {
+    document.getElementById("poemBox1").classList.add("show");
+    document.getElementById("poemIcon2").classList.add("show");
+}
+
+function openPoem2() {
+    document.getElementById("poemBox2").classList.add("show");
+    document.getElementById("poemIcon3").classList.add("show");
+}
+
+function openPoem3() {
+    document.getElementById("poemBox3").classList.add("show");
+}
+
+/* PARTICLES */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+let particles = Array.from({length: 80}, () => ({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*2+1,
+    v: Math.random()*0.5+0.2
+}));
+
+function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "rgba(255,120,170,0.6)";
+    particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+        p.y += p.v;
+        if(p.y>canvas.height){ p.y=0; p.x=Math.random()*canvas.width; }
     });
+    requestAnimationFrame(draw);
+}
+draw();
+</script>
 
-    flower.addEventListener("click", () => {
-      text2.classList.add("show");
-      star.classList.remove("hidden");
-      flower.style.opacity = "0.3";
-    });
-
-    star.addEventListener("click", () => {
-      text3.classList.add("show");
-      star.style.opacity = "0.3";
-    });
-  </script>
 </body>
 </html>
