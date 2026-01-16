@@ -15,28 +15,14 @@ body {
     overflow: hidden;
 }
 
+/* SCENE */
 .scene {
     position: relative;
     width: 100vw;
     height: 100vh;
 }
 
-/* MUSIC BUTTON */
-.music-toggle {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    font-size: 24px;
-    cursor: pointer;
-    opacity: 0.6;
-    transition: 0.3s;
-    z-index: 5;
-}
-.music-toggle:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
+/* BACKGROUND */
 .alley {
     position: absolute;
     width: 100%;
@@ -45,6 +31,7 @@ body {
     z-index: 1;
 }
 
+/* DATE */
 .neon {
     position: absolute;
     top: 50px;
@@ -56,6 +43,7 @@ body {
     z-index: 2;
 }
 
+/* CAT */
 .cat {
     position: absolute;
     bottom: 120px;
@@ -99,9 +87,11 @@ body {
     transition: transform 0.3s;
     z-index: 2;
 }
+
 .book:hover {
     transform: scale(1.08);
 }
+
 .book::after {
     content: "📖";
     position: absolute;
@@ -116,35 +106,41 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     width: 70%;
     max-width: 600px;
     background: rgba(15,15,25,0.96);
     border: 1px solid #ff77aa;
     padding: 32px;
-    display: none;
     opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -45%);
     box-shadow: 0 0 40px rgba(255,120,170,0.45);
     z-index: 4;
 }
 
 .message.show {
-    display: block;
+    opacity: 1;
+    pointer-events: auto;
     animation:
-        messageIn 2.8s ease-out forwards,
+        messageIn 3s ease-out forwards,
         heartbeat 4s ease-in-out infinite;
 }
 
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
 @keyframes heartbeat {
-    0% {
-        box-shadow: 0 0 30px rgba(255,120,170,0.25);
-    }
-    50% {
-        box-shadow: 0 0 55px rgba(255,120,170,0.45);
-    }
-    100% {
-        box-shadow: 0 0 30px rgba(255,120,170,0.25);
-    }
+    0%   { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
+    50%  { box-shadow: 0 0 55px rgba(255,120,170,0.45); }
+    100% { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
 }
 
 .message h1 {
@@ -178,8 +174,6 @@ body {
 </audio>
 
 <div class="scene">
-    <div class="music-toggle" onclick="toggleMusic()">🎧</div>
-
     <div class="alley"></div>
     <canvas id="particles"></canvas>
 
@@ -202,28 +196,27 @@ body {
 </div>
 
 <script>
+/* MUSIC */
 const music = document.getElementById("bgMusic");
 let musicStarted = false;
 
 function startMusic() {
     if (!musicStarted) {
-        music.play();
+        music.play().catch(()=>{});
         musicStarted = true;
     }
 }
 
-function openBook(){
+/* MESSAGE */
+function openBook() {
     startMusic();
-
-    const msg = document.getElementById("messageBox");
-    msg.classList.add("show");
-
+    document.getElementById("messageBox").classList.add("show");
     document.querySelector(".alley").style.filter = "blur(1px)";
     document.getElementById("particles").style.filter = "blur(1px)";
 }
 
-/* Start music on first click anywhere */
-document.addEventListener("click", startMusic, { once: true });
+/* Start music on first interaction */
+document.addEventListener("pointerdown", startMusic, { once: true });
 
 /* PARTICLES */
 const canvas = document.getElementById("particles");
