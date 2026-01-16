@@ -103,19 +103,22 @@ body {
     font-size: 42px;
     cursor: pointer;
     opacity: 0;
+    filter: blur(0.6px);
     pointer-events: none;
-    transition: opacity 1.5s ease;
+    transition: opacity 1.8s ease, filter 1.2s ease;
     z-index: 2;
 }
 
 .poem-icon.show {
-    opacity: 0.7;
+    opacity: 0.35;
     pointer-events: auto;
 }
 
 .poem-icon:hover {
-    opacity: 1;
+    opacity: 0.85;
+    filter: blur(0);
 }
+
 
 #icon1 { left: 40%; }
 #icon2 { left: 50%; transform: translateX(-50%); }
@@ -159,8 +162,9 @@ body {
 .panel.show {
     opacity: 1;
     pointer-events: auto;
-    animation: panelIn 3s ease forwards, heartbeat 4s ease-in-out infinite;
+    animation: panelIn 4s ease forwards, heartbeat 6s ease-in-out infinite;
 }
+
 
 @keyframes panelIn {
     to {
@@ -170,22 +174,34 @@ body {
 }
 
 @keyframes heartbeat {
-    0% { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
-    50% { box-shadow: 0 0 55px rgba(255,120,170,0.45); }
-    100% { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
+    0% { box-shadow: 0 0 20px rgba(255,120,170,0.20); }
+    50% { box-shadow: 0 0 38px rgba(255,120,170,0.38); }
+    100% { box-shadow: 0 0 20px rgba(255,120,170,0.20); }
 }
+
 
 .panel h1 {
     font-family: 'Playfair Display', serif;
-    color: #ff77aa;
+    color: rgba(255,119,170,0.85);
     text-align: center;
+    font-size: 30px;
+    letter-spacing: 1.5px;
+    margin-bottom: 18px;
 }
+
 
 .panel p {
     font-size: 18px;
-    line-height: 1.6;
+    line-height: 1.75;
     text-align: center;
+    letter-spacing: 0.2px;
 }
+
+#poem1 p, #poem2 p, #poem3 p {
+    margin-top: 12px;
+}
+
+
 
 /* PARTICLES */
 #particles {
@@ -262,33 +278,33 @@ body {
 </div>
 
 <script>
-let audioUnlocked = false;
 const music = document.getElementById("bgMusic");
 
-function unlockAudio() {
-    if (audioUnlocked) return;
-    music.muted = false;
-    music.play().then(() => {
-        audioUnlocked = true;
-    }).catch(()=>{});
+function fadeInMusic(targetVolume = 0.6, duration = 3000) {
+    music.volume = 0;
+    let step = targetVolume / (duration / 100);
+    const fade = setInterval(() => {
+        if (music.volume < targetVolume) {
+            music.volume = Math.min(targetVolume, music.volume + step);
+        } else {
+            clearInterval(fade);
+        }
+    }, 100);
 }
 
 function openBook() {
-    music.volume = 0;
-music.play();
-
-let v = 0;
-const fade = setInterval(() => {
-    v += 0.02;
-    music.volume = Math.min(v, 0.7);
-    if (v >= 0.7) clearInterval(fade);
-}, 150);
-
     document.getElementById("messageBox").classList.add("show");
 
     setTimeout(() => {
-        document.getElementById("icon1").classList.add("show");
+        music.currentTime = 0;
+        music.play().then(() => {
+            fadeInMusic();
+        }).catch(()=>{});
     }, 1200);
+
+    setTimeout(() => {
+        document.getElementById("icon1").classList.add("show");
+    }, 2000);
 }
 
 
