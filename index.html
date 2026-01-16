@@ -35,15 +35,17 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    <div class="music-toggle" onclick="toggleMusic()">🎧</div>
+
 }
 
-.scene {
-    animation: fadeMessage 1.5s ease forwards;
+.scene.scene {
+    animation: fadeScene 2.5s ease forwards;
 }
 
-@keyframes fadeMessage {
-    from { opacity: 0; transform: translate(-50%, -45%); }
-    to { opacity: 1; transform: translate(-50%, -50%); }
+@keyframes fadeScene {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 
@@ -133,6 +135,22 @@ body {
     box-shadow: 0 0 40px rgba(255,120,170,0.4);
 }
 
+.message {
+    animation: messageIn 1.5s ease forwards;
+}
+
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+
 .message h1 {
     font-family: 'Playfair Display', serif;
     color: #ff77aa;
@@ -161,7 +179,6 @@ body {
 </head>
 
 <body>
-    <div class="music-toggle" onclick="toggleMusic()">🎧</div>
 
 <audio id="bgMusic" loop>
     <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_2e3e7a0c4e.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
@@ -190,8 +207,9 @@ body {
 <script>
 function openBook(){
     document.getElementById("messageBox").style.display = "block";
-    document.querySelector(".scene").style.filter = "blur(0.5px)";
-    document.getElementById("messageBox").style.filter = "none";
+    document.querySelector(".alley").style.filter = "blur(1px)";
+document.getElementById("particles").style.filter = "blur(1px)";
+
 }
 
 const music = document.getElementById("bgMusic");
