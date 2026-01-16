@@ -215,7 +215,7 @@ body {
         <div class="eyes"></div>
     </div>
 
-    <div class="book" onclick="openBook()"></div>
+    <div class="book" onclick="unlockAudio(); openBook();"></div>
 
   <div class="poem-icon" id="icon1" onclick="openPoem(1)">🖋️</div>
 <div class="poem-icon" id="icon2" onclick="openPoem(2)">🎧</div>
@@ -262,12 +262,19 @@ body {
 </div>
 
 <script>
+let audioUnlocked = false;
 const music = document.getElementById("bgMusic");
 
+function unlockAudio() {
+    if (audioUnlocked) return;
+    music.muted = false;
+    music.play().then(() => {
+        audioUnlocked = true;
+    }).catch(()=>{});
+}
+
 function openBook() {
-    music.currentTime = 0;
     music.volume = 0.7;
-    music.play();
 
     document.getElementById("messageBox").classList.add("show");
 
@@ -275,6 +282,7 @@ function openBook() {
         document.getElementById("icon1").classList.add("show");
     }, 1200);
 }
+
 
 function openPoem(n) {
     document.getElementById(`poem${n}`).classList.add("show");
