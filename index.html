@@ -13,6 +13,23 @@ body {
     overflow: hidden;
 }
 
+.music-toggle {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 22px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.3s;
+    z-index: 3;
+}
+
+.music-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+    
 .scene {
     position: relative;
     width: 100vw;
@@ -21,12 +38,12 @@ body {
 }
 
 .scene {
-    animation: fadeIn 3s ease forwards;
+    animation: fadeMessage 1.5s ease forwards;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes fadeMessage {
+    from { opacity: 0; transform: translate(-50%, -45%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
 
@@ -144,6 +161,12 @@ body {
 </head>
 
 <body>
+    <div class="music-toggle" onclick="toggleMusic()">🎧</div>
+
+<audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_2e3e7a0c4e.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+</audio>
+
 <div class="scene">
     <div class="alley"></div>
     <canvas id="particles"></canvas>
@@ -167,7 +190,23 @@ body {
 <script>
 function openBook(){
     document.getElementById("messageBox").style.display = "block";
+    document.querySelector(".scene").style.filter = "blur(0.5px)";
+    document.getElementById("messageBox").style.filter = "none";
 }
+
+const music = document.getElementById("bgMusic");
+let playing = false;
+
+function toggleMusic() {
+    if (!playing) {
+        music.play();
+        playing = true;
+    } else {
+        music.pause();
+        playing = false;
+    }
+}
+
 
 // particles
 const canvas = document.getElementById("particles");
