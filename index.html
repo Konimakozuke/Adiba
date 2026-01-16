@@ -200,7 +200,7 @@ body {
 <body>
 
 <audio id="bgMusic" loop>
-    <source src="main/Futile Device.mp3" type="audio/mpeg">
+    <source src="Futile_Device.mp3" type="audio/mpeg">
 </audio>
 
 
@@ -265,10 +265,12 @@ body {
 const music = document.getElementById("bgMusic");
 
 function openBook() {
-    music.play().catch(()=>{});
+    music.currentTime = 0;
+    music.volume = 0.7;
+    music.play();
+
     document.getElementById("messageBox").classList.add("show");
 
-    // show first poem icon
     setTimeout(() => {
         document.getElementById("icon1").classList.add("show");
     }, 1200);
