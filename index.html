@@ -405,6 +405,13 @@ function openBook() {
         document.getElementById("icon1").classList.add("show");
         activateWarmth(); // warmth acknowledges her choice
     }, 2000);
+
+    // subtle presence hint — only if she stays
+setTimeout(() => {
+    particles.forEach(p => {
+        p.v = p.baseV * 0.55;
+    });
+}, 9000);
 }
 
 
@@ -442,12 +449,13 @@ let particles = Array.from({length: 80}, () => ({
     x: Math.random()*canvas.width,
     y: Math.random()*canvas.height,
     r: Math.random()*2+1,
-    v: Math.random()*0.5+0.2
+    v: Math.random()*0.5+0.2,
+    baseV: Math.random()*0.5+0.2
 }));
 
 function draw() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "rgba(255,120,170,0.6)";
+    ctx.fillStyle = "rgba(255,120,170,0.45)";
     particles.forEach(p=>{
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
