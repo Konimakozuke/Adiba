@@ -100,22 +100,27 @@ body {
 .poem-icon {
     position: absolute;
     bottom: 80px;
-    left: 18%;
-    font-size: 48px;
+    font-size: 42px;
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
     transition: opacity 1.5s ease;
     z-index: 2;
 }
+
 .poem-icon.show {
     opacity: 0.7;
     pointer-events: auto;
 }
-.poem-icon:hover { opacity: 1; }
 
-#poemIcon2 { bottom: 140px; }
-#poemIcon3 { bottom: 200px; }
+.poem-icon:hover {
+    opacity: 1;
+}
+
+#icon1 { left: 12%; }
+#icon2 { right: 12%; }
+#icon3 { bottom: 160px; left: 50%; transform: translateX(-50%); }
+
 
 /* PANELS */
 .panel {
@@ -133,6 +138,23 @@ body {
     box-shadow: 0 0 40px rgba(255,120,170,0.45);
     z-index: 4;
 }
+
+/* PANEL POSITIONS */
+.panel.left {
+    left: 20%;
+    top: 50%;
+}
+
+.panel.right {
+    left: 80%;
+    top: 50%;
+}
+
+.panel.top {
+    left: 50%;
+    top: 18%;
+}
+
 
 .panel.show {
     opacity: 1;
@@ -194,9 +216,10 @@ body {
 
     <div class="book" onclick="openBook()"></div>
 
-    <div class="poem-icon" id="poemIcon1" onclick="openPoem1()">✉️</div>
-    <div class="poem-icon" id="poemIcon2" onclick="openPoem2()">✉️</div>
-    <div class="poem-icon" id="poemIcon3" onclick="openPoem3()">✉️</div>
+  <div class="poem-icon" id="icon1" onclick="openPoem(1)">🖋️</div>
+<div class="poem-icon" id="icon2" onclick="openPoem(2)">🎧</div>
+<div class="poem-icon" id="icon3" onclick="openPoem(3)">🌙</div>
+
 
     <div class="panel" id="messageBox">
         <h1>Happy Birthday, Adiba</h1>
@@ -206,32 +229,35 @@ body {
         </p>
     </div>
 
-    <div class="panel" id="poemBox1">
-        <p>
-            I love you without knowing how, or when, or from where.<br>
-            I love you simply, without problems or pride:<br>
-            I love you in this way because I do not know any other way of loving but this...
-        </p>
-    </div>
+    <div class="panel left" id="poem1">
+    <p>
+        I love you without knowing how, or when, or from where.<br>
+        I love you simply, without problems or pride:<br>
+        I love you in this way because I do not know any other way of loving but this...
+    </p>
+</div>
 
-    <div class="panel" id="poemBox2">
-        <p>
-            I love you. I’m glad you exist.<br><br>
-            The rest of the day was quite easy.<br>
-            I did all the jobs on my list<br>
-            And enjoyed them and had some time over.<br><br>
-            I love you. I’m glad you exist.
-        </p>
-    </div>
+<div class="panel right" id="poem2">
+    <p>
+        I love you. I’m glad you exist.<br><br>
+        The rest of the day was quite easy.<br>
+        I did all the jobs on my list and enjoyed them,<br>
+        and had some time over.<br><br>
+        I love you. I’m glad you exist.
+    </p>
+</div>
 
-    <div class="panel" id="poemBox3">
-        <p>
-            Give me a daughter with your stubborn heart, or your even temper.<br>
-            Give our children your dark-bright eyes, or your enchanted smile.<br><br>
-            So that even when we are gone,<br>
-            the world will find within them all of the reasons why I loved you.
-        </p>
-    </div>
+<div class="panel top" id="poem3">
+    <p>
+        Give me a daughter with your stubborn heart,<br>
+        or your even temper.<br>
+        Give our children your dark-bright eyes,<br>
+        or your enchanted smile.<br><br>
+        So that even when we are gone,<br>
+        the world will find within them<br>
+        all of the reasons why I loved you.
+    </p>
+</div>
 </div>
 
 <script>
@@ -240,22 +266,25 @@ const music = document.getElementById("bgMusic");
 function openBook() {
     music.play().catch(()=>{});
     document.getElementById("messageBox").classList.add("show");
-    document.getElementById("poemIcon1").classList.add("show");
+
+    // show first poem icon
+    setTimeout(() => {
+        document.getElementById("icon1").classList.add("show");
+    }, 1200);
 }
 
-function openPoem1() {
-    document.getElementById("poemBox1").classList.add("show");
-    document.getElementById("poemIcon2").classList.add("show");
-}
+function openPoem(n) {
+    document.getElementById(`poem${n}`).classList.add("show");
 
-function openPoem2() {
-    document.getElementById("poemBox2").classList.add("show");
-    document.getElementById("poemIcon3").classList.add("show");
+    // reveal next icon
+    if (n === 1) {
+        document.getElementById("icon2").classList.add("show");
+    }
+    if (n === 2) {
+        document.getElementById("icon3").classList.add("show");
+    }
 }
-
-function openPoem3() {
-    document.getElementById("poemBox3").classList.add("show");
-}
+</script>
 
 /* PARTICLES */
 const canvas = document.getElementById("particles");
