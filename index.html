@@ -15,7 +15,6 @@ body {
     overflow: hidden;
 }
 
-/* SCENE */
 .scene {
     position: relative;
     width: 100vw;
@@ -87,11 +86,7 @@ body {
     transition: transform 0.3s;
     z-index: 2;
 }
-
-.book:hover {
-    transform: scale(1.08);
-}
-
+.book:hover { transform: scale(1.08); }
 .book::after {
     content: "📖";
     position: absolute;
@@ -101,8 +96,28 @@ body {
     transform: translate(-50%, -50%);
 }
 
+/* POEM ICON (hidden at first) */
+.poem-icon {
+    position: absolute;
+    bottom: 80px;
+    left: 18%;
+    font-size: 48px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+    z-index: 2;
+}
+.poem-icon.show {
+    opacity: 0.7;
+    pointer-events: auto;
+}
+.poem-icon:hover {
+    opacity: 1;
+}
+
 /* MESSAGE */
-.message {
+.panel {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -118,19 +133,13 @@ body {
     z-index: 4;
 }
 
-.message.show {
+.panel.show {
     opacity: 1;
     pointer-events: auto;
-    animation:
-        messageIn 3s ease-out forwards,
-        heartbeat 4s ease-in-out infinite;
+    animation: panelIn 3s ease forwards, heartbeat 4s ease-in-out infinite;
 }
 
-@keyframes messageIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -45%);
-    }
+@keyframes panelIn {
     to {
         opacity: 1;
         transform: translate(-50%, -50%);
@@ -138,18 +147,18 @@ body {
 }
 
 @keyframes heartbeat {
-    0%   { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
-    50%  { box-shadow: 0 0 55px rgba(255,120,170,0.45); }
+    0% { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
+    50% { box-shadow: 0 0 55px rgba(255,120,170,0.45); }
     100% { box-shadow: 0 0 30px rgba(255,120,170,0.25); }
 }
 
-.message h1 {
+.panel h1 {
     font-family: 'Playfair Display', serif;
     color: #ff77aa;
     text-align: center;
 }
 
-.message p {
+.panel p {
     font-size: 18px;
     line-height: 1.6;
     text-align: center;
@@ -160,8 +169,6 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
     z-index: 0;
 }
 </style>
@@ -186,75 +193,66 @@ body {
 
     <div class="book" onclick="openBook()"></div>
 
-    <div class="message" id="messageBox">
+    <div class="poem-icon" id="poemIcon" onclick="openPoem()">✉️</div>
+
+    <div class="panel" id="messageBox">
         <h1>Happy Birthday, Adiba</h1>
         <p>
             I’m really glad you exist.<br><br>
             Even from far away, I hope today reminds you that you matter more than you probably realize, and that wherever this year takes you, it brings you things that feel kind, meaningful, and true to who you are.
         </p>
     </div>
+
+    <div class="panel" id="poemBox">
+        <p>
+            Some people arrive quietly,<br>
+            like a page you weren’t looking for,<br>
+            and somehow the story reads softer after that.
+        </p>
+    </div>
 </div>
 
 <script>
-/* MUSIC */
 const music = document.getElementById("bgMusic");
-let musicStarted = false;
 
-function startMusic() {
-    if (!musicStarted) {
-        music.play().catch(()=>{});
-        musicStarted = true;
-    }
-}
-
-/* MESSAGE */
 function openBook() {
-    startMusic();
+    music.play().catch(()=>{});
     document.getElementById("messageBox").classList.add("show");
-    document.querySelector(".alley").style.filter = "blur(1px)";
-    document.getElementById("particles").style.filter = "blur(1px)";
+    document.getElementById("poemIcon").classList.add("show");
 }
 
-/* Start music on first interaction */
-document.addEventListener("pointerdown", startMusic, { once: true });
+function openPoem() {
+    document.getElementById("poemBox").classList.add("show");
+}
 
 /* PARTICLES */
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 
-function resize(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function resize() {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
 }
-window.addEventListener("resize", resize);
 resize();
+window.addEventListener("resize", resize);
 
-let particles = [];
+let particles = Array.from({length: 80}, () => ({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*2+1,
+    v: Math.random()*0.5+0.2
+}));
 
-for(let i=0;i<80;i++){
-    particles.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height,
-        r: Math.random()*2+1,
-        v: Math.random()*0.5+0.2
-    });
-}
-
-function draw(){
+function draw() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle = "rgba(255,120,170,0.6)";
-
     particles.forEach(p=>{
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
         ctx.fill();
         p.y += p.v;
-        if(p.y > canvas.height){
-            p.y = 0;
-            p.x = Math.random()*canvas.width;
-        }
+        if(p.y>canvas.height){ p.y=0; p.x=Math.random()*canvas.width; }
     });
-
     requestAnimationFrame(draw);
 }
 draw();
