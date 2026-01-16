@@ -130,19 +130,23 @@ body {
 
 .message.show {
     display: block;
-    animation: messageIn 2.8s ease-out forwards;
+    animation:
+        messageIn 2.8s ease-out forwards,
+        heartbeat 4s ease-in-out infinite;
 }
 
-@keyframes messageIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -46%);
+@keyframes heartbeat {
+    0% {
+        box-shadow: 0 0 30px rgba(255,120,170,0.25);
     }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
+    50% {
+        box-shadow: 0 0 55px rgba(255,120,170,0.45);
+    }
+    100% {
+        box-shadow: 0 0 30px rgba(255,120,170,0.25);
     }
 }
+
 
 .message h1 {
     font-family: 'Playfair Display', serif;
@@ -200,24 +204,27 @@ body {
 
 <script>
 const music = document.getElementById("bgMusic");
-let playing = false;
+let musicStarted = false;
 
-function toggleMusic() {
-    if (!playing) {
+function startMusic() {
+    if (!musicStarted) {
         music.play();
-        playing = true;
-    } else {
-        music.pause();
-        playing = false;
+        musicStarted = true;
     }
 }
 
 function openBook(){
+    startMusic();
+
     const msg = document.getElementById("messageBox");
     msg.classList.add("show");
+
     document.querySelector(".alley").style.filter = "blur(1px)";
     document.getElementById("particles").style.filter = "blur(1px)";
 }
+
+/* Start music on first click anywhere */
+document.addEventListener("click", startMusic, { once: true });
 
 /* PARTICLES */
 const canvas = document.getElementById("particles");
