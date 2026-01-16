@@ -237,7 +237,70 @@ body.warm .cat {
     filter: drop-shadow(0 0 18px rgba(255,120,170,0.38));
 }
 
+/* MOBILE — same pace, softer geometry */
+@media (max-width: 768px) {
+
+    .neon {
+        top: 24px;
+        left: 20px;
+        font-size: 18px;
+        letter-spacing: 1.5px;
+    }
+
+    .cat {
+        font-size: 90px;
+        bottom: 140px;
+    }
+
+    .book {
+        width: 150px;
+        height: 96px;
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 60px;
+    }
+
+    .book::after {
+        font-size: 48px;
+    }
+
+    /* Poem icons stay together — no chasing */
+    #icon1 { left: 35%; }
+    #icon2 { left: 50%; }
+    #icon3 { left: 65%; }
+
+    .poem-icon {
+        bottom: 60px;
+        font-size: 34px;
+    }
+
+    .panel {
+        width: 86%;
+        padding: 24px;
+    }
+
+    .panel h1 {
+        font-size: 24px;
+    }
+
+    .panel p {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    /* Panels stack gently, not dramatically */
+    .panel.left,
+    .panel.right,
+    .panel.top {
+        left: 50%;
+        top: 50%;
+    }
+}
+
 </style>
+
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
