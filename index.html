@@ -274,7 +274,15 @@ function unlockAudio() {
 }
 
 function openBook() {
-    music.volume = 0.7;
+    music.volume = 0;
+music.play();
+
+let v = 0;
+const fade = setInterval(() => {
+    v += 0.02;
+    music.volume = Math.min(v, 0.7);
+    if (v >= 0.7) clearInterval(fade);
+}, 150);
 
     document.getElementById("messageBox").classList.add("show");
 
